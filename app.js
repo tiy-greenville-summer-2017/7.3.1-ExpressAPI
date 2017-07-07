@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 
-app.use("static", express.static("public"));
+// app.use("static", express.static("public"));
 const dogs = [{name: "peanut", age: 12, id: 1}, {name: "scooter", age: 16, id: 2}];
 
 app.get("/", (req, res) => {
-  res.send("good job!");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 app.get("/api/dogs", (req, res) => {
