@@ -7,13 +7,20 @@
   <body>
     <h1>Joel</h1>
 
-    
+    <button type="button" name="button" id="fetchButton">GET MOAR DATA!!</button>
 
     <script type="text/javascript">
-      fetch("/api/dogs").then(response => {
-        response.json().then(dogs =>  {
-          console.log(dogs);
+      let fetchAction = function() {
+        fetch("/api/dogs").then(response => {
+          response.json().then(dogs =>  {
+            console.log(dogs);
+          });
         });
+      };
+
+      let button = document.getElementById("fetchButton");
+      button.addEventListener("click", function(event) {
+        fetchAction();
       });
     </script>
   </body>

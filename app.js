@@ -3,7 +3,11 @@ const app = express();
 const path = require("path");
 
 // app.use("static", express.static("public"));
-const dogs = [{name: "peanut", age: 12, id: 1}, {name: "scooter", age: 16, id: 2}];
+const dogs = [{
+  name: "peanut", age: 12, id: 1},
+  {name: "scooter", age: 16, id: 2},
+  {name: "paul", age: 20, id: 3}
+];
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
