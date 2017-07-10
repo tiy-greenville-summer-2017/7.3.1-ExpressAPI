@@ -9,11 +9,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect("mongodb://localhost:27017/dogdb");
 
 // app.use("static", express.static("public"));
-const dogs = [{
-  name: "peanut", age: 12, id: 1},
-  {name: "scooter", age: 16, id: 2},
-  {name: "paul", age: 20, id: 3}
-];
+
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -22,15 +18,15 @@ app.get("/", (req, res) => {
 
 app.get("/api/dogs", (req, res) => {
   Dog.find({}).then(dogs => {
-    res.json(dogs)
+    res.json(dogs);
     console.log(dogs);
-  })
+  });
 });
 
 app.post("/api/dogs", (req, res) => {
   dog = new Dog(req.body).save().then((newDog) => {
     res.json({});
-  })
+  });
 });
 
 app.patch("/api/dogs/:id", (req, res) => {
@@ -45,11 +41,7 @@ app.patch("/api/dogs/:id", (req, res) => {
 });
 
 app.get("/api/dogs/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const dog = dogs.find(tempDog => {
-    return tempDog.id === id;
-  });
-  res.json(dog);
+  res.json({});
 });
 
 app.listen(3000);
