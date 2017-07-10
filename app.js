@@ -23,9 +23,9 @@ passport.use(new BasicStrategy(
       if (!user) {
         return done(null, false);
       } else {
-        return done(null, username);
+        return done(null, user);
       }
-    })
+    });
   }
 ));
 
@@ -34,13 +34,15 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/dogs", passport.authenticate('basic', {session: false}), (req, res) => {
-  Dog.find({}).then(dogs => {
+  console.log(req.user);
+  Dog.find({owner: req.user._id}).then(dogs => {
     res.json(dogs);
     console.log(dogs);
   });
 });
 
-app.post("/api/dogs", (req, res) => {
+app.post("/api/dogs", passport.authenticate('basic', {session: false}), (req, res) => {
+  req.body.owner = req.user._id;
   dog = new Dog(req.body).save().then((newDog) => {
     res.json({});
   });
