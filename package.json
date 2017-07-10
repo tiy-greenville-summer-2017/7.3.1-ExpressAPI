@@ -8,13 +8,15 @@
   },
   "author": "",
   "license": "ISC",
-  "jshintConfig":{
+  "jshintConfig": {
     "esversion": 6
   },
   "dependencies": {
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "mongoose": "^4.10.8"
+    "mongoose": "^4.10.8",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0"
   }
 }

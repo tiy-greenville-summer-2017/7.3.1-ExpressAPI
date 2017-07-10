@@ -3,7 +3,12 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const Dog = require("./models/dog");
+const User = require("./models/user");
 const bodyParser = require("body-parser");
+
+const passport = require("passport");
+const BasicStrategy = require("passport-http").BasicStrategy;
+
 mongoose.Promise = require('bluebird');
 
 mongoose.connect("mongodb://localhost:27017/dogdb");
@@ -12,11 +17,23 @@ mongoose.connect("mongodb://localhost:27017/dogdb");
 
 app.use(bodyParser.json());
 
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    User.findOne({username: username, password: password}).then(user => {
+      if (!user) {
+        return done(null, false);
+      } else {
+        return done(null, username);
+      }
+    })
+  }
+));
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.get("/api/dogs", (req, res) => {
+app.get("/api/dogs", passport.authenticate('basic', {session: false}), (req, res) => {
   Dog.find({}).then(dogs => {
     res.json(dogs);
     console.log(dogs);
@@ -37,6 +54,12 @@ app.patch("/api/dogs/:id", (req, res) => {
     dog.save().then(dog => {
       res.json(dog);
     });
+  });
+});
+
+app.post("/api/users", (req, res) => {
+  const user = new User(req.body).save().then(user => {
+    res.json(user);
   });
 });
 
